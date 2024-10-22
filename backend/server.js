@@ -6,7 +6,7 @@ const foodRouter = require("./routes/foodRoute.js");
 
 // app config
 const app = express();
-const port = 3000;
+const port = 4000;
 
 // MIDDLEWARE
 app.use(express.json());
