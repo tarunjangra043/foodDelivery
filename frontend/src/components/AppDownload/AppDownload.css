@@ -5,6 +5,11 @@
   text-align: center;
 }
 
+.app-download p span {
+  color: tomato;
+  font-weight: bold;
+}
+
 .app-download-platforms {
   display: flex;
   justify-content: center;

@@ -31,13 +31,14 @@ const Footer = () => {
           <h2>GET IN TOUCH</h2>
           <ul>
             <li>+1-212-456-7890</li>
-            <li>contact@tomato.com</li>
+            <li>contact@cravix.com</li>
           </ul>
         </div>
       </div>
       <hr />
       <div className="footer-copyright">
-        Copyright 2024 © Tomato.com - All Right Reserved.
+        Copyright 2024 © cravix.com - All Right Reserved. <br />
+        Made By Tarun Jangra
       </div>
     </div>
   );
