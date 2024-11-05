@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./FoodDisplay.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import FoodItem from "../FoodItem/FoodItem";
+import axios from "axios";
+import { setFoodList } from "../../redux/cartSlice";
 
 const FoodDisplay = ({ category }) => {
   const food_list = useSelector((state) => state.cart.food_list);
+  const url = useSelector((state) => state.cart.url);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchFoodList = async () => {
+      const response = await axios.get(url + "/api/food/list");
+      dispatch(setFoodList(response.data.data));
+    };
+
+    fetchFoodList();
+  }, []);
 
   return (
     <div className="food-display" id="food-display">

@@ -13,9 +13,18 @@ const Footer = () => {
             pariatur.
           </p>
           <div className="footer-social-icons">
-            <img src={assets.facebook_icon} alt="" />
-            <img src={assets.twitter_icon} alt="" />
-            <img src={assets.linkedin_icon} alt="" />
+            <a href="">
+              <img src={assets.facebook_icon} alt="" />
+            </a>
+            <a href="">
+              <img src={assets.twitter_icon} alt="" />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/tarunjangra41/"
+              target="_blank"
+            >
+              <img src={assets.linkedin_icon} alt="" />
+            </a>
           </div>
         </div>
         <div className="footer-content-center">
