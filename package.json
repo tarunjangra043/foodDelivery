@@ -1,5 +1,14 @@
 {
   "dependencies": {
     "react-toastify": "^10.0.6"
-  }
+  },
+  "name": "fooddelivery",
+  "description": "node_modules",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
 }
