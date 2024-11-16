@@ -1,3 +1,4 @@
+// FoodItem.jsx
 import React from "react";
 import "./FoodItem.css";
 import { assets } from "../../assets/assets";
