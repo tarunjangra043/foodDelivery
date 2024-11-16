@@ -4,6 +4,7 @@ import { assets } from "../../assets/assets";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { setToken } from "../../redux/cartSlice";
+import { toast } from "react-toastify";
 
 const LoginPopup = ({ setShowLogin }) => {
   const url = useSelector((state) => state.cart.url);
@@ -38,8 +39,10 @@ const LoginPopup = ({ setShowLogin }) => {
       dispatch(setToken(response.data.token));
       localStorage.setItem("token", response.data.token);
       setShowLogin(false);
+
+      toast.success("Login Successfull!");
     } else {
-      alert(response.data.message);
+      toast.error("Invalid Credential!");
     }
   };
 

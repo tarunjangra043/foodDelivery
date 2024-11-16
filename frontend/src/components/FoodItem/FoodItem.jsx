@@ -3,6 +3,7 @@ import "./FoodItem.css";
 import { assets } from "../../assets/assets";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../../redux/cartSlice";
+import { toast } from "react-toastify";
 
 const FoodItem = ({ id, name, price, description, image }) => {
   const dispatch = useDispatch();
@@ -15,20 +16,29 @@ const FoodItem = ({ id, name, price, description, image }) => {
         {!cartItems[id] ? (
           <img
             className="add"
-            onClick={() => dispatch(addToCart(id))}
+            onClick={() => {
+              dispatch(addToCart(id));
+              toast.success("Item Added SuccessFully 🛒");
+            }}
             src={assets.add_icon_white}
             alt="Add to Cart"
           />
         ) : (
           <div className="food-item-counter">
             <img
-              onClick={() => dispatch(removeFromCart(id))}
+              onClick={() => {
+                dispatch(removeFromCart(id));
+                toast.error("Item SuccessFully Removed 🛒");
+              }}
               src={assets.remove_icon_red}
               alt="Remove from Cart"
             />
             <p>{cartItems[id]}</p>
             <img
-              onClick={() => dispatch(addToCart(id))}
+              onClick={() => {
+                dispatch(addToCart(id));
+                toast.success("Item Added SuccessFully 🛒");
+              }}
               src={assets.add_icon_green}
               alt="Increase quantity"
             />
