@@ -5,7 +5,7 @@ const initialState = {
   cartItems: {},
   food_list: [],
   totalPrice: 0,
-  url: "https://fooddelbackend-njrb.onrender.com",
+  url: "https://fooddelbackend-njrb.onrender.com/",
   token: localStorage.getItem("token") || "",
 };
 
