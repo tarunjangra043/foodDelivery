@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
@@ -18,19 +18,33 @@ const calculateTotalPrice = (cartItems, food_list) => {
   }, 0);
 };
 
+export const addToCartAsync = createAsyncThunk(
+  "cart/addToCartAsync",
+  async (itemId, { getState, rejectWithValue }) => {
+    const state = getState().cart;
+    const { url, token } = state;
+    if (!token) {
+      return rejectWithValue("No token available");
+    }
+    try {
+      await axios.post(
+        `${url}/api/cart/add`,
+        { itemId },
+        { headers: { token } }
+      );
+      return itemId;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to add item to cart"
+      );
+    }
+  }
+);
+
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart: (state, action) => {
-      const itemId = action.payload;
-      if (!state.cartItems[itemId]) {
-        state.cartItems[itemId] = 1;
-      } else {
-        state.cartItems[itemId]++;
-      }
-      state.totalPrice = calculateTotalPrice(state.cartItems, state.food_list);
-    },
     removeFromCart: (state, action) => {
       const itemId = action.payload;
       if (state.cartItems[itemId]) {
@@ -53,9 +67,25 @@ const cartSlice = createSlice({
       state.food_list = updateFoodList;
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(addToCartAsync.fulfilled, (state, action) => {
+        const itemId = action.payload;
+        if (!state.cartItems[itemId]) {
+          state.cartItems[itemId] = 1;
+        } else {
+          state.cartItems[itemId]++;
+        }
+        state.totalPrice = calculateTotalPrice(
+          state.cartItems,
+          state.food_list
+        );
+      })
+      .addCase(addToCartAsync.rejected, (state, action) => {
+        console.error("Failed to add to cart:", action.payload);
+      });
+  },
 });
 
-export const { addToCart, removeFromCart, setToken, setFoodList } =
-  cartSlice.actions;
-
+export const { removeFromCart, setToken, setFoodList } = cartSlice.actions;
 export default cartSlice.reducer;

@@ -1,14 +1,15 @@
-// FoodItem.jsx
 import React from "react";
 import "./FoodItem.css";
 import { assets } from "../../assets/assets";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, removeFromCart } from "../../redux/cartSlice";
+import { addToCartAsync, removeFromCart } from "../../redux/cartSlice";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom"; // Updated import
 
 const FoodItem = ({ id, name, price, description, image }) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
+  const navigate = useNavigate(); // Initialize navigate hook
 
   return (
     <div className="food-item">
@@ -18,8 +19,8 @@ const FoodItem = ({ id, name, price, description, image }) => {
           <img
             className="add"
             onClick={() => {
-              dispatch(addToCart(id));
-              toast.success("Item Added SuccessFully 🛒");
+              dispatch(addToCartAsync(id)); // Use addToCartAsync here
+              toast.success("Item Added Successfully 🛒");
             }}
             src={assets.add_icon_white}
             alt="Add to Cart"
@@ -29,7 +30,7 @@ const FoodItem = ({ id, name, price, description, image }) => {
             <img
               onClick={() => {
                 dispatch(removeFromCart(id));
-                toast.error("Item SuccessFully Removed 🛒");
+                toast.error("Item Successfully Removed 🛒");
               }}
               src={assets.remove_icon_red}
               alt="Remove from Cart"
@@ -37,8 +38,8 @@ const FoodItem = ({ id, name, price, description, image }) => {
             <p>{cartItems[id]}</p>
             <img
               onClick={() => {
-                dispatch(addToCart(id));
-                toast.success("Item Added SuccessFully 🛒");
+                dispatch(addToCartAsync(id)); // Use addToCartAsync here
+                toast.success("Item Added Successfully 🛒");
               }}
               src={assets.add_icon_green}
               alt="Increase quantity"
