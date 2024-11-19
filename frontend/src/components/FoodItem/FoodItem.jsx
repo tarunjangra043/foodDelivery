@@ -4,12 +4,12 @@ import { assets } from "../../assets/assets";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCartAsync, removeFromCart } from "../../redux/cartSlice";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom"; // Updated import
+import { useNavigate } from "react-router-dom";
 
 const FoodItem = ({ id, name, price, description, image }) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
-  const navigate = useNavigate(); // Initialize navigate hook
+  const navigate = useNavigate();
 
   return (
     <div className="food-item">
@@ -19,7 +19,7 @@ const FoodItem = ({ id, name, price, description, image }) => {
           <img
             className="add"
             onClick={() => {
-              dispatch(addToCartAsync(id)); // Use addToCartAsync here
+              dispatch(addToCartAsync(id));
               toast.success("Item Added Successfully 🛒");
             }}
             src={assets.add_icon_white}
@@ -38,7 +38,7 @@ const FoodItem = ({ id, name, price, description, image }) => {
             <p>{cartItems[id]}</p>
             <img
               onClick={() => {
-                dispatch(addToCartAsync(id)); // Use addToCartAsync here
+                dispatch(addToCartAsync(id));
                 toast.success("Item Added Successfully 🛒");
               }}
               src={assets.add_icon_green}

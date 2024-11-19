@@ -5,6 +5,7 @@ const initialState = {
   cartItems: {},
   food_list: [],
   totalPrice: 0,
+  // url: "http://localhost:4000",
   url: "https://fooddelbackend-njrb.onrender.com",
   token: localStorage.getItem("token") || "",
 };
@@ -23,14 +24,17 @@ export const addToCartAsync = createAsyncThunk(
   async (itemId, { getState, rejectWithValue }) => {
     const state = getState().cart;
     const { url, token } = state;
+
     if (!token) {
-      return rejectWithValue("No token available");
+      console.warn("No token found in state:", state);
+      return rejectWithValue("No token available. Please log in.");
     }
+
     try {
       await axios.post(
         `${url}/api/cart/add`,
         { itemId },
-        { headers: { token } }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       return itemId;
     } catch (error) {
@@ -60,11 +64,11 @@ const cartSlice = createSlice({
       localStorage.setItem("token", action.payload);
     },
     setFoodList: (state, action) => {
-      const updateFoodList = action.payload.map((item) => ({
+      const updatedFoodList = action.payload.map((item) => ({
         ...item,
         image: `${state.url}/images/${item.image}`,
       }));
-      state.food_list = updateFoodList;
+      state.food_list = updatedFoodList;
     },
   },
   extraReducers: (builder) => {

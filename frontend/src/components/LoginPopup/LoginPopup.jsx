@@ -77,6 +77,7 @@ const LoginPopup = ({ setShowLogin }) => {
             value={data.email}
             type="email"
             placeholder="Your email"
+            autoComplete="current-password"
             required
           />
           <input
@@ -85,6 +86,7 @@ const LoginPopup = ({ setShowLogin }) => {
             value={data.password}
             type="password"
             placeholder="Password"
+            autoComplete="current-password"
             required
           />
         </div>
