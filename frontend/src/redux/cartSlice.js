@@ -26,7 +26,6 @@ export const addToCartAsync = createAsyncThunk(
     const { url, token } = state;
 
     if (!token) {
-      console.warn("No token found in state:", state);
       return rejectWithValue("No token available. Please log in.");
     }
 
@@ -64,22 +63,17 @@ const cartSlice = createSlice({
       localStorage.setItem("token", action.payload);
     },
     setFoodList: (state, action) => {
-      const updatedFoodList = action.payload.map((item) => ({
+      state.food_list = action.payload.map((item) => ({
         ...item,
         image: `${state.url}/images/${item.image}`,
       }));
-      state.food_list = updatedFoodList;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(addToCartAsync.fulfilled, (state, action) => {
         const itemId = action.payload;
-        if (!state.cartItems[itemId]) {
-          state.cartItems[itemId] = 1;
-        } else {
-          state.cartItems[itemId]++;
-        }
+        state.cartItems[itemId] = (state.cartItems[itemId] || 0) + 1;
         state.totalPrice = calculateTotalPrice(
           state.cartItems,
           state.food_list

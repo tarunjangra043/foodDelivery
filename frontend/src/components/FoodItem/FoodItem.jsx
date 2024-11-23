@@ -4,18 +4,18 @@ import { assets } from "../../assets/assets";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCartAsync, removeFromCart } from "../../redux/cartSlice";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 
 const FoodItem = ({ id, name, price, description, image }) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
-  const navigate = useNavigate();
+
+  const itemQuantity = cartItems[id] || 0;
 
   return (
     <div className="food-item">
       <div className="food-item-img-container">
         <img className="food-item-img" src={image} alt="" />
-        {!cartItems[id] ? (
+        {itemQuantity === 0 ? (
           <img
             className="add"
             onClick={() => {
@@ -35,7 +35,7 @@ const FoodItem = ({ id, name, price, description, image }) => {
               src={assets.remove_icon_red}
               alt="Remove from Cart"
             />
-            <p>{cartItems[id]}</p>
+            <p>{itemQuantity}</p>
             <img
               onClick={() => {
                 dispatch(addToCartAsync(id));

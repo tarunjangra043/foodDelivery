@@ -8,8 +8,6 @@ const Cart = () => {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const food_list = useSelector((state) => state.cart.food_list);
   const totalPrice = useSelector((state) => state.cart.totalPrice);
-  const deliveryFee = totalPrice > 0 ? 2 : 0;
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -26,15 +24,16 @@ const Cart = () => {
         </div>
         <br />
         <hr />
-        {food_list.map((item, index) => {
-          if (cartItems[item._id] > 0) {
+        {food_list.map((item) => {
+          const quantity = cartItems[item._id];
+          if (quantity > 0) {
             return (
-              <div key={index} className="cart-items-title cart-items-item">
+              <div key={item._id} className="cart-items-title cart-items-item">
                 <img src={item.image} alt="" />
                 <p>{item.name}</p>
-                <p>${item.price}</p>
-                <p>{cartItems[item._id]}</p>
-                <p>${item.price * cartItems[item._id]}</p>
+                <p>₹{item.price}</p>
+                <p>{quantity}</p>
+                <p>₹{item.price * quantity}</p>
                 <p
                   onClick={() => dispatch(removeFromCart(item._id))}
                   className="cross"
@@ -53,31 +52,17 @@ const Cart = () => {
           <div>
             <div className="cart-total-details">
               <p>Subtotal</p>
-              <p>${totalPrice.toFixed(2)}</p>
-            </div>
-            <hr />
-            <div className="cart-total-details">
-              <p>Delivery fee</p>
-              <p>${deliveryFee}</p>
+              <p>₹{totalPrice.toFixed(2)}</p>
             </div>
             <hr />
             <div className="cart-total-details">
               <b>Total</b>
-              <b>${(totalPrice + deliveryFee).toFixed(2)}</b>
+              <b>₹{totalPrice.toFixed(2)}</b>
             </div>
           </div>
           <button onClick={() => navigate("/order")}>
             Proceed to Checkout
           </button>
-        </div>
-        <div className="cart-promocode">
-          <div>
-            <p>If you have a promo code, Enter it here</p>
-            <div className="cart-promocode-input">
-              <input type="text" placeholder="promo code" />
-              <button>Submit</button>
-            </div>
-          </div>
         </div>
       </div>
     </div>

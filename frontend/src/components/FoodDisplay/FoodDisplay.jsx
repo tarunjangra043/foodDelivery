@@ -12,23 +12,27 @@ const FoodDisplay = ({ category }) => {
 
   useEffect(() => {
     const fetchFoodList = async () => {
-      const response = await axios.get(url + "/api/food/list");
-      dispatch(setFoodList(response.data.data));
+      try {
+        const response = await axios.get(`${url}/api/food/list`);
+        dispatch(setFoodList(response.data.data));
+      } catch (error) {
+        console.error("Failed to fetch food list", error);
+      }
     };
 
     fetchFoodList();
-  }, []);
+  }, [dispatch, url]);
 
   return (
     <div className="food-display" id="food-display">
       <h2>Top dishes near you</h2>
       <div className="food-display-list">
         {food_list && food_list.length > 0 ? (
-          food_list.map((item, index) => {
+          food_list.map((item) => {
             if (category === "All" || category === item.category) {
               return (
                 <FoodItem
-                  key={index}
+                  key={item._id}
                   id={item._id}
                   name={item.name}
                   description={item.description}
