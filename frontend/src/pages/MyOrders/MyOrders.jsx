@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./MyOrders.css";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { assets } from "../../assets/assets";
 
 const MyOrders = () => {
   const url = useSelector((state) => state.cart.url);
@@ -16,6 +17,7 @@ const MyOrders = () => {
         { headers: { Authorization: token } }
       );
 
+      console.log(response);
       if (response.data && response.data.data) {
         setData(response.data.data);
       } else {

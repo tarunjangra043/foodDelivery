@@ -65,7 +65,7 @@ const PlaceOrder = () => {
       navigate("/cart");
     } else if (totalPrice === 0) {
       navigate("/cart");
-      toast.error("Cart is Empty!");
+      toast.error("Cart 🛒 is Empty!");
     }
   }, [token]);
 
