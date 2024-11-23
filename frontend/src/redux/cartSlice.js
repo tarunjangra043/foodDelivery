@@ -5,8 +5,8 @@ const initialState = {
   cartItems: {},
   food_list: [],
   totalPrice: 0,
-  url: "http://localhost:4000",
-  // url: "https://fooddelbackend-njrb.onrender.com",
+  // url: "http://localhost:4000",
+  url: "https://fooddelbackend-njrb.onrender.com",
   token: localStorage.getItem("token") || "",
 };
 
