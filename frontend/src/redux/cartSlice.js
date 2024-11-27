@@ -1,5 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   cartItems: {},
@@ -19,35 +18,15 @@ const calculateTotalPrice = (cartItems, food_list) => {
   }, 0);
 };
 
-export const addToCartAsync = createAsyncThunk(
-  "cart/addToCartAsync",
-  async (itemId, { getState, rejectWithValue }) => {
-    const state = getState().cart;
-    const { url, token } = state;
-
-    if (!token) {
-      return rejectWithValue("No token available. Please log in.");
-    }
-
-    try {
-      await axios.post(
-        `${url}/api/cart/add`,
-        { itemId },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      return itemId;
-    } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || "Failed to add item to cart"
-      );
-    }
-  }
-);
-
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
+    addToCart: (state, action) => {
+      const itemId = action.payload;
+      state.cartItems[itemId] = (state.cartItems[itemId] || 0) + 1;
+      state.totalPrice = calculateTotalPrice(state.cartItems, state.food_list);
+    },
     removeFromCart: (state, action) => {
       const itemId = action.payload;
       if (state.cartItems[itemId]) {
@@ -68,22 +47,13 @@ const cartSlice = createSlice({
         image: `${state.url}/images/${item.image}`,
       }));
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(addToCartAsync.fulfilled, (state, action) => {
-        const itemId = action.payload;
-        state.cartItems[itemId] = (state.cartItems[itemId] || 0) + 1;
-        state.totalPrice = calculateTotalPrice(
-          state.cartItems,
-          state.food_list
-        );
-      })
-      .addCase(addToCartAsync.rejected, (state, action) => {
-        console.error("Failed to add to cart:", action.payload);
-      });
+    clearCart: (state) => {
+      state.cartItems = {};
+      state.totalPrice = 0;
+    },
   },
 });
 
-export const { removeFromCart, setToken, setFoodList } = cartSlice.actions;
+export const { addToCart, removeFromCart, setToken, setFoodList, clearCart } =
+  cartSlice.actions;
 export default cartSlice.reducer;

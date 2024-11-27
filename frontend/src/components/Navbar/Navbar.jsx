@@ -3,7 +3,8 @@ import "./Navbar.css";
 import { assets } from "../../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setToken } from "../../redux/cartSlice";
+import { clearCart, setToken } from "../../redux/cartSlice";
+import { toast } from "react-toastify";
 
 const Navbar = ({ setShowLogin }) => {
   const [menu, setMenu] = useState("menu");
@@ -16,6 +17,8 @@ const Navbar = ({ setShowLogin }) => {
     localStorage.removeItem("token");
     dispatch(setToken(""));
     navigate("/");
+    dispatch(clearCart());
+    toast.error("Logged Out! Pls Login Again");
   };
 
   return (
