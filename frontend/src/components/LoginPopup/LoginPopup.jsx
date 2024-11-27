@@ -40,9 +40,9 @@ const LoginPopup = ({ setShowLogin }) => {
       localStorage.setItem("token", response.data.token);
       setShowLogin(false);
 
-      toast.success("Login Successfull!");
+      toast.success(response.data.message);
     } else {
-      toast.error("Invalid Credential!");
+      toast.error(response.data.message);
     }
   };
 
