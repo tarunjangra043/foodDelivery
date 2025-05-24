@@ -1,0 +1,25 @@
+.blog-container{
+    width: 100%;
+}
+
+.title{
+    font-size: 30px;
+    margin: 20px 0;
+}
+
+.img-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.image{
+    width: 30rem;
+    height: 15rem;
+    clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+}
+
+.description{
+    margin-top: 40px;
+}

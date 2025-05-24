@@ -13,11 +13,7 @@ const MyOrders = () => {
   const fetchOrders = async () => {
     setLoading(true);
     try {
-      const response = await axios.post(
-        `${url}/api/order/userorders`,
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const response = await axios.get(`${url}/api/order/userorders`);
 
       if (response.data?.success) {
         setData(response.data.data);

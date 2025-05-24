@@ -9,6 +9,7 @@ import { useState } from "react";
 import LoginPopup from "./components/LoginPopup/LoginPopup.jsx";
 import Verify from "./pages/Verify/Verify.jsx";
 import MyOrders from "./pages/MyOrders/MyOrders.jsx";
+import Blog from "./components/Blog/Blog.jsx";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -23,6 +24,7 @@ function App() {
           <Route path="/order" element={<PlaceOrder />} />
           <Route path="/verify" element={<Verify />} />
           <Route path="/myorders" element={<MyOrders />} />
+          <Route path="/blog" element={<Blog />} />
         </Routes>
       </div>
       <Footer />

@@ -15,7 +15,7 @@ const FoodItem = ({ id, name, price, description, image }) => {
 
   const handleAddToCart = async () => {
     if (!token) {
-      toast.error("Please logIn to add items to the cart.");
+      toast.error("Please logIn to add items to the cart🛒");
       return;
     }
 

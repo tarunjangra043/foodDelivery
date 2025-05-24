@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./PlaceOrder.css";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { jwtDecode } from "jwt-decode";
+import { clearCart } from "../../redux/cartSlice";
 
 const PlaceOrder = () => {
   const navigate = useNavigate();
@@ -13,6 +15,10 @@ const PlaceOrder = () => {
   const food_list = useSelector((state) => state.cart.food_list);
   const cartItems = useSelector((state) => state.cart.cartItems);
   const url = useSelector((state) => state.cart.url);
+
+  const dispatch = useDispatch();
+
+  const decodeToken = jwtDecode(token);
 
   const [data, setData] = useState({
     firstName: "",
@@ -42,20 +48,25 @@ const PlaceOrder = () => {
         orderItems.push(itemInfo);
       }
     });
+
     let orderData = {
       address: data,
       items: orderItems,
-      amount: totalPrice + 2,
+      amount: totalPrice + deliveryFee,
+      userId: decodeToken.id,
     };
-    let response = await axios.post(url + "/api/order/place", orderData, {
-      headers: { token },
+
+    let response = await axios.post(`${url}/api/order/place`, orderData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     if (response.data.success) {
-      const { session_url } = response.data;
-      window.location.replace(session_url);
+      navigate("/");
+      toast.success("SuccessFully Ordered 😋");
+      dispatch(clearCart());
     } else {
-      console.log(response.data);
       toast.error("Error!");
     }
   };
