@@ -11,7 +11,7 @@ const List = ({ url }) => {
     if (response.data.success) {
       setList(response.data.data);
     } else {
-      toast.success("Error");
+      toast.error("Error");
     }
   };
 
